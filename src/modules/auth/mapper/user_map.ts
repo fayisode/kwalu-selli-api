@@ -21,11 +21,18 @@ export class UserMap implements Mapper<ProductUser> {
         return userOrError.isSuccess ? userOrError.getValue() : null;
     }
 
-    public static toPersistence(user: ProductUser): any {
+    public static async toPersistence(user: ProductUser): Promise<any> {
+        let passwordValue: string
+        const password = user.password.getValue().value;
+        if(user.password.getValue().isAlreadyHashed()) {
+            passwordValue = password;
+        }else{
+            passwordValue = await user.password.getValue().getHashedValue();
+        }
         return {
             userId: user.id.toValue(),
             email: user.email.getValue().value,
-            password: user.password.getValue().value
+            password: passwordValue
         };
     }
 }
