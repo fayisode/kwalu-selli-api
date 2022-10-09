@@ -12,8 +12,8 @@ describe('User Map', function () {
         });
     });
 
-    it('should get a persistence from domain', function () {
-        const result = UserMap.toPersistence(userDomain);
+    it('should get a persistence from domain', async function () {
+        const result = await UserMap.toPersistence(userDomain);
         expect(result).toStrictEqual(userPersistent);
     });
 });

@@ -56,8 +56,6 @@ export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<CreateU
             let profile = profileDomain.getValue();
             user.userCreated(profile)
             await this.authRepo.saveUser(user);
-
-
             return right(Result.ok<void>());
         } catch (e) {
             return left(new AppError.UnexpectedError(e)) as CreateUserResponse;

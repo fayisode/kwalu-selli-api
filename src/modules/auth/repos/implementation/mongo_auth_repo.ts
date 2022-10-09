@@ -49,8 +49,8 @@ export class MongoAuthRepo implements IAuthRepo {
         const exist = await this.exists(user.email.getValue().value)
 
         if (!exist) {
-            const collection = this.getUsersCollection()
-            const userDoc = UserMap.toPersistence(user);
+            const collection: Collection = this.getUsersCollection()
+            const userDoc = await UserMap.toPersistence(user);
             await collection.insertOne(userDoc);
             DomainEvents.dispatchEventsForAggregate(user.id);
         }

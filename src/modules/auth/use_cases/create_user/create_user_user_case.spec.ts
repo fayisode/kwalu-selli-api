@@ -4,6 +4,7 @@ import {ProductUser} from "../../domain/entity/product_user";
 import {UserProfile} from "../../domain/entity/user_profile";
 import {CreateUserResponse} from "./create_user_response";
 import {before} from "lodash";
+import {TextAuthRepo, TextRepo2} from "../auth_test_helper";
 
 describe('Create User Use Case', function () {
     let result: CreateUserResponse
@@ -11,7 +12,7 @@ describe('Create User Use Case', function () {
     let userUseCaseSuccess: CreateUserUseCase
     beforeEach(() => {
         result = null;
-        userUseCase = new CreateUserUseCase(new TextRepo())
+        userUseCase = new CreateUserUseCase(new TextAuthRepo())
         userUseCaseSuccess = new CreateUserUseCase(new TextRepo2())
     })
     it('should know an invalid props passed', async function () {
@@ -71,50 +72,3 @@ describe('Create User Use Case', function () {
         expect(result.value.isSuccess).toBeTruthy()
     })
 })
-
-class TextRepo implements IAuthRepo {
-    async exists(email: string): Promise<boolean> {
-        return true;
-    }
-
-    getProfileByEmail(email: string): Promise<UserProfile> {
-        return Promise.resolve(undefined);
-    }
-
-    getUserByEmail(email: string): Promise<ProductUser> {
-        return Promise.resolve(undefined);
-    }
-
-    saveProfile(profile: UserProfile): Promise<void> {
-        return Promise.resolve(undefined);
-    }
-
-    saveUser(user: ProductUser): Promise<void> {
-        return Promise.resolve(undefined);
-    }
-}
-
-class TextRepo2 implements IAuthRepo {
-    async exists(email: string): Promise<boolean> {
-        return false;
-    }
-
-    async save(user: ProductUser): Promise<void> {
-    }
-
-    getProfileByEmail(email: string): Promise<UserProfile> {
-        return Promise.resolve(undefined);
-    }
-
-    getUserByEmail(email: string): Promise<ProductUser> {
-        return Promise.resolve(undefined);
-    }
-
-    saveProfile(profile: UserProfile): Promise<void> {
-        return Promise.resolve(undefined);
-    }
-
-    saveUser(user: ProductUser): Promise<void> {
-        return Promise.resolve(undefined);
-    }
-}
