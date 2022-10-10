@@ -9,7 +9,7 @@ export abstract class BaseController {
     try {
       await this.executeImpl(req, res);
     } catch (err) {
-      console.log(`[BaseController]: Uncaught controller error`);
+      console.log(` [BaseController]: Uncaught controller error`);
       console.log(err);
       this.fail(res, 'An unexpected error occurred')
     }
