@@ -38,7 +38,7 @@ export class CreateUserController extends BaseController {
                         return this.fail(res, error.getErrorValue().message);
                 }
             }else{
-                return this.ok(res);
+                return this.ok(res, result.value.getValue());
             }
         } catch (e) {
             return this.fail(res, e);

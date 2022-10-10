@@ -26,6 +26,13 @@ export abstract class BaseController {
       // @ts-ignore
       res.type('application/json');
       // @ts-ignore
+      if(dto.token){
+        // @ts-ignore
+        res.setHeader('Identifier', dto.token);
+        // @ts-ignore
+        delete dto.token;
+      }
+      // @ts-ignore
       return res.status(200).json(dto);
     } else {
       // @ts-ignore
