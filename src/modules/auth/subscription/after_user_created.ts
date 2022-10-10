@@ -15,7 +15,7 @@ export class AfterUserCreated implements IHandle<UserCreated>{
     }
 
     private async onUserCreated(event: UserCreated): Promise<void> {
-        console.log('User Created', event);
+        console.log('Event Subscription ', event.eventName);
         await this.useCase.execute({
             lastName: event.profile.lastName.value,
             phone: event.profile.phone.value,
