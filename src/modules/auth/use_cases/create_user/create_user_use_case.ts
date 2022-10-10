@@ -14,22 +14,35 @@ import {CreateUserError} from "./create_user_error";
 import {left, Result, right} from "../../../../shared/core/Result";
 import {AppError} from "../../../../shared/core/AppError";
 import {UserProfile} from "../../domain/entity/user_profile";
+import {AuthService} from "../../services/auth_service";
 
-export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<CreateUserResponse>> {
+export class CreateUserUseCase implements UseCase<CreateUserDto,
+    Promise<CreateUserResponse>> {
     private authRepo: IAuthRepo;
+    private authService: AuthService;
 
-    constructor(authRepo: IAuthRepo) {
+    constructor(authRepo: IAuthRepo,
+                authService: AuthService) {
         this.authRepo = authRepo;
+        this.authService = authService;
     }
 
-    async execute(request?: CreateUserDto): Promise<CreateUserResponse> {
+    async execute(request?: CreateUserDto
+    ): Promise<CreateUserResponse> {
         const userDomain = ProductUser.create({
             email: UserEmail.create({value: request.email}),
-            password: UserPassword.create({value: request.password, hashed: false})
+            password: UserPassword.create(
+                {
+                    value: request.password,
+                    hashed: false
+                }
+            )
         });
 
         if (userDomain.isFailure) {
-            return left(new CreateUserError.ValuePropsError(userDomain));
+            return left(
+                new CreateUserError.ValuePropsError(userDomain),
+            );
         }
 
         const profileDomain = UserProfile.create({
@@ -42,23 +55,36 @@ export class CreateUserUseCase implements UseCase<CreateUserDto, Promise<CreateU
             avatar: '',
         })
 
-        if(profileDomain.isFailure){
-            return left(new CreateUserError.ValuePropsError(profileDomain));
+        if (profileDomain.isFailure) {
+            return left(
+                new CreateUserError.ValuePropsError(profileDomain)
+            );
         }
 
         try {
             const exists = await this.authRepo.exists(request.email);
             if (exists) {
-                return left(new CreateUserError.EmailAlreadyExist(request.email));
+                return left(
+                    new CreateUserError.EmailAlreadyExist(request.email)
+                );
             }
 
             let user = userDomain.getValue();
             let profile = profileDomain.getValue();
             user.userCreated(profile)
             await this.authRepo.saveUser(user);
-            return right(Result.ok<void>());
+            const token = await this.authService.signJWT({
+                email: user.email.getValue().value,
+                userId: user.id.toValue() as string,
+            });
+            return right(Result.ok<any>({
+                token: token,
+                message: 'User created successfully'
+            }));
         } catch (e) {
-            return left(new AppError.UnexpectedError(e)) as CreateUserResponse;
+            return left(
+                new AppError.UnexpectedError(e)
+            ) as CreateUserResponse;
         }
     }
 

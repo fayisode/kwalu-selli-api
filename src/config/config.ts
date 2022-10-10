@@ -5,8 +5,8 @@ const dbConfig = {
 }
 
 const valueConfig = {
-    secret: process.env.APTITUDE_APP_SECRET || 'tj67O==5H',
     tokenExpiryTime: 30000,
+    JWT_SECRET: process.env.JWT_SECRET || 'tj67O==5H',
 }
 
 export { dbConfig, valueConfig }

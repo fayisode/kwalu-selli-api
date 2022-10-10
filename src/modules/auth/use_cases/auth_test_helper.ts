@@ -71,3 +71,33 @@ export class TextRepo3 implements IAuthRepo {
     }
 
 }
+
+export class JwtMock{
+    private email = 'test@test.com';
+    private userId = '123213';
+    public verify(token:string, secret:string, callback:Function) {
+        return  {
+            email: this.email,
+            userId: this.userId,
+        }
+    };
+
+    public signJWT(claims:any, secret:string, options:any) {
+        return 'test';
+    }
+}
+
+export class JwtMockError{
+    private email = 'test@test.com';
+    private userId = '123213';
+    public verify(token:string, secret:string, callback:Function) {
+        return  {
+            email: this.email,
+            userId: this.userId,
+        }
+    };
+
+    public signJWT(claims:any, secret:string, options:any) {
+        throw Error('test');
+    }
+}
