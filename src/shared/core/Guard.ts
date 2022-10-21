@@ -62,11 +62,11 @@ export class Guard {
             }
         }
 
-        if (isValid) {
-            return Result.ok<GuardResponse>()
-        } else {
-            return Result.fail<GuardResponse>(`${argumentName} isn't oneOf the correct types in ${JSON.stringify(validValues)}. Got "${value}".`);
-        }
+        if (!isValid) {
+            return Result.fail<GuardResponse>(`${argumentName} isn't oneOf the correct types in ${JSON.stringify(validValues)}. Got "${value}".`);          
+        } 
+        return Result.ok<GuardResponse>()
+        
     }
 
     public static inRange(num: number, min: number, max: number, argumentName: string): Result<GuardResponse> {
