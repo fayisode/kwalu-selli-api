@@ -32,6 +32,10 @@ export class ProductUser extends  AggregateRoot<ProductUserProps>{
         return this.props.password;
     }
 
+    get lastLogin(): Date {
+        return this.props.lastLogin;
+    }
+
     public setAccessToken(token: JWTToken): void {
         this.props.lastLogin = new Date();
         this.props.accessToken = token;
@@ -41,6 +45,7 @@ export class ProductUser extends  AggregateRoot<ProductUserProps>{
     public userCreated(profile: UserProfile): void{
         this.addDomainEvent(new UserCreated(profile));
     }
+
 
     static create(props: ProductUserProps, id?: UniqueEntityID): Result<ProductUser> {
         const result = Result.combine([

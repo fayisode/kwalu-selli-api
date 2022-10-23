@@ -57,8 +57,8 @@ export class LoginUserUseCase implements UseCase<LoginUserDto, LoginUserResponse
                         email: email,
                         userId: id,
                     });
-
-                    // const token  = '';
+                    user.setAccessToken(token);
+                    await this.authRepo.signInUser(user);
                     return right(Result.ok({token: token, message: 'User successfully logged in'}))
                 }
             } catch (e) {

@@ -72,11 +72,12 @@ export class CreateUserUseCase implements UseCase<CreateUserDto,
             let user = userDomain.getValue();
             let profile = profileDomain.getValue();
             user.userCreated(profile)
-            await this.authRepo.saveUser(user);
             const token = await this.authService.signJWT({
                 email: user.email.getValue().value,
                 userId: user.id.toValue() as string,
             });
+            user.setAccessToken(token)
+            await this.authRepo.saveUser(user);
             return right(Result.ok<any>({
                 token: token,
                 message: 'User created successfully'

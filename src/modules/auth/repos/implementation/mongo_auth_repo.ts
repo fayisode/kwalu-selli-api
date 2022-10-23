@@ -67,4 +67,20 @@ export class MongoAuthRepo implements IAuthRepo {
         return !!user === true;
     }
 
+    async  signInUser(user: ProductUser): Promise<void> {
+        DomainEvents.dispatchEventsForAggregate(user.id);
+    }
+
+    async updateUserLastLogin(userId: string, date: Date): Promise<void> {
+        const collection: Collection = this.getUsersCollection()
+        await collection.updateOne(
+            {userId: userId},
+            {
+                $set: {'lastLogin': date},
+                $currentDate: { lastModified: true }
+            }
+        )
+        return Promise.resolve();
+    }
+
 }

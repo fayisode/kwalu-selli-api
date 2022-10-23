@@ -7,4 +7,6 @@ export interface IAuthRepo {
     getProfileByEmail(email: string): Promise<UserProfile>;
     saveUser(user:ProductUser): Promise<void>;
     getUserByEmail(email: string): Promise<ProductUser>;
+    signInUser(user:ProductUser): Promise<void>;
+    updateUserLastLogin(userId: string, date:Date): Promise<void>;
 }
