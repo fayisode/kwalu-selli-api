@@ -8,7 +8,6 @@ export class MailingService {
         return {
             'user': 'apikey',
             'pass': ''
-            // 'pass': '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'
         }
         //   return await nodemailer.createTestAccount();
     }
