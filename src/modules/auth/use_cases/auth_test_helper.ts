@@ -1,6 +1,7 @@
 import {IAuthRepo} from "../repos/i_auth_repo";
 import {UserProfile} from "../domain/entity/user_profile";
 import {ProductUser} from "../domain/entity/product_user";
+import { OperationValues } from "../services/process_service";
 
 export class TextAuthRepo implements IAuthRepo {
     async exists(email: string): Promise<boolean> {
@@ -20,6 +21,22 @@ export class TextAuthRepo implements IAuthRepo {
     }
 
     saveUser(user: ProductUser): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    getVerificationDetails(id: string): Promise<OperationValues> {
+        return Promise.resolve(undefined);
+    }
+
+    saveVerification(values: any): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    signInUser(user: ProductUser): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    updateUserLastLogin(userId: string, date: Date): Promise<void> {
         return Promise.resolve(undefined);
     }
 }
@@ -47,9 +64,37 @@ export class TextRepo2 implements IAuthRepo {
     saveUser(user: ProductUser): Promise<void> {
         return Promise.resolve(undefined);
     }
+
+    getVerificationDetails(id: string): Promise<OperationValues> {
+        return Promise.resolve(undefined);
+    }
+
+    saveVerification(values: any): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    signInUser(user: ProductUser): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    updateUserLastLogin(userId: string, date: Date): Promise<void> {
+        return Promise.resolve(undefined);
+    }
 }
 
 export class TextRepo3 implements IAuthRepo {
+    signInUser(user: ProductUser): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    updateUserLastLogin(userId: string, date: Date): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    saveVerification(values: any): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    getVerificationDetails(id: string): Promise<OperationValues> {
+        throw new Error("Method not implemented.");
+    }
     exists(email: string): Promise<boolean> {
         return Promise.resolve(false);
     }

@@ -28,10 +28,19 @@ export abstract class BaseController {
       // @ts-ignore
       if(dto.token){
         // @ts-ignore
-        res.setHeader('Identifier', dto.token);
+        res.setHeader('Token', dto.token);
         // @ts-ignore
         delete dto.token;
       }
+
+      // @ts-ignore
+      if(dto.identifier){
+        // @ts-ignore
+        res.setHeader('Identifier', dto.identifier);
+        // @ts-ignore
+        delete dto.identifier;
+      }
+
       // @ts-ignore
       return res.status(200).json({
         ...dto,

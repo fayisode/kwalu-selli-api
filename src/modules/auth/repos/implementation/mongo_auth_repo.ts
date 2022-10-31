@@ -6,6 +6,7 @@ import {UserMap} from "../../mapper/user_map";
 import {UserProfileMap} from "../../mapper/user_profile_map";
 import {Collection, Document} from "mongodb";
 import {DomainEvents} from "../../../../shared/domain/events/DomainEvents";
+import {OperationValues} from "../../services/process_service";
 
 export class MongoAuthRepo implements IAuthRepo {
     private mongoHelper: IMongoHelper;
@@ -43,6 +44,35 @@ export class MongoAuthRepo implements IAuthRepo {
         const collection = this.getProfileCollection()
         const profileDoc = UserProfileMap.toPersistence(profile);
         await collection.insertOne(profileDoc);
+    }
+
+    private getVerificationCollection(): Collection<Document> {
+        return this.mongoHelper.getCollection('verification');
+    }
+
+    async saveVerification(values: any): Promise<void> {
+        const collection = this.getVerificationCollection()
+        // await collection.insertOne(values);
+        await collection.updateOne(
+            {id: values.id},
+            {
+                $set: {...values},
+                $currentDate: { lastModified: true }
+            },
+            { upsert: true }
+        )
+    }
+
+    async getVerificationDetails(id: string): Promise<OperationValues> {
+        const collection = this.getVerificationCollection()
+        const result =  await collection.findOne({id:id});
+        return {
+            process_name: result.processInfo.operation.process_name,
+            otp: result.pin,
+            identifier: result.processInfo.identifier,
+            time: result.processInfo.operation.time,
+            type: result.processInfo.operation.type
+        }
     }
 
     async saveUser(user: ProductUser): Promise<void> {
