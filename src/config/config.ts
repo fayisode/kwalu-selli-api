@@ -1,12 +1,17 @@
 
 const dbConfig = {
-    mongoUrl: process.env.MONGO_URL || "mongodb+srv://saheedfaremi:Saheed123*@cluster0.7elbk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    mongoUrl: process.env.MONGO_URL,
     port: process.env.PORT || 5050,
 }
 
 const valueConfig = {
     tokenExpiryTime: 30000,
-    JWT_SECRET: process.env.JWT_SECRET || 'tj67O==5H',
+    JWT_SECRET: process.env.JWT_SECRET ,
 }
 
-export { dbConfig, valueConfig }
+const sendGridConfig = {
+    user: process.env.SENDGRID_USER,
+    apiKey: process.env.SENDGRID_API_KEY,
+}
+
+export { dbConfig, valueConfig, sendGridConfig }

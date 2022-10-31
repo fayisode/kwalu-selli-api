@@ -1,13 +1,14 @@
 import {DomainEvents} from "../../../shared/domain/events/DomainEvents";
 import {UniqueEntityID} from "../../../shared/domain/UniqueEntityID";
+import {sendGridConfig} from "../../../config/config";
 
 const nodemailer = require("nodemailer");
 
 export class MailingService {
     private async generateAccount() {
         return {
-            'user': 'apikey',
-            'pass': ''
+            'user': sendGridConfig.user,
+            'pass': sendGridConfig.apiKey,
         }
         //   return await nodemailer.createTestAccount();
     }
