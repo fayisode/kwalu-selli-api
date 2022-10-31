@@ -4,6 +4,7 @@ const dbConfig = {
     port: process.env.PORT || 5050,
 }
 
+
 const valueConfig = {
     tokenExpiryTime: 30000,
     JWT_SECRET: process.env.JWT_SECRET ,
