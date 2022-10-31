@@ -7,6 +7,7 @@ import {UserProfile} from "./user_profile";
 import {UserCreated} from "../event/user_created";
 import {JWTToken} from "../helper/jwt";
 import {UserLoggedIn} from "../event/user_loggedin";
+import {UserPasswordReset} from "../event/user_password_resetted";
 
 interface ProductUserProps {
     email: Result<UserEmail>,
@@ -46,6 +47,9 @@ export class ProductUser extends  AggregateRoot<ProductUserProps>{
         this.addDomainEvent(new UserCreated(profile));
     }
 
+    public passwordReset(pin: string, processInfo: any): void {
+        this.addDomainEvent(new UserPasswordReset(this, pin, processInfo));
+    }
 
     static create(props: ProductUserProps, id?: UniqueEntityID): Result<ProductUser> {
         const result = Result.combine([
