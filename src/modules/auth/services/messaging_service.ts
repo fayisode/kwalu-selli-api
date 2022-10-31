@@ -5,11 +5,12 @@ const nodemailer = require("nodemailer");
 
 export class MailingService {
     private async generateAccount() {
-      return   {
+        return {
             'user': 'apikey',
-            'pass': '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'
+            'pass': ''
+            // 'pass': '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'
         }
-      //   return await nodemailer.createTestAccount();
+        //   return await nodemailer.createTestAccount();
     }
 
     private async setUpTransport() {
@@ -25,13 +26,13 @@ export class MailingService {
         });
     }
 
-    async sendMailToUser(email: string,message: string) {
+    async sendMailToUser(email: string, message: string) {
         let transporter = await this.setUpTransport();
-        const info =  await transporter.sendMail({
+        const info = await transporter.sendMail({
             from: 'saheedfaremi@gmail.com', // sender address
             to: email, // list of receivers
             subject: "Hello ✔", // Subject line
-            text: "You have requested a password reset for your Kwaluselli account. Copy the code and pass in the application. Code: "+message, // plain text body
+            text: "You have requested a password reset for your Kwaluselli account. Copy the code and pass in the application. Code: " + message, // plain text body
             html: "", // html body
         });
 
@@ -40,7 +41,7 @@ export class MailingService {
         return info;
     }
 
-    async dispatchEventNotification(id: UniqueEntityID ) {
+    async dispatchEventNotification(id: UniqueEntityID) {
         DomainEvents.dispatchEventsForAggregate(id);
     }
 
