@@ -9,6 +9,7 @@ export class MailingService {
             'user': 'apikey',
             'pass': ''
         }
+        //   return await nodemailer.createTestAccount();
     }
 
     private async setUpTransport() {
