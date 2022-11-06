@@ -15,7 +15,7 @@ export class UpdateUserLastLoginUseCase implements UseCase<UpdateUserLastLoginDt
 
     async execute(request?: UpdateUserLastLoginDto): Promise<UpdateUserLastLoginResponse> {
         try{
-            await this.authRepo.updateUserLastLogin(request.userId, request.date);
+            await this.authRepo.updateUser(request.userId,{'lastLogin':  request.date});
             return right(Result.ok<void>());
         }catch (e) {
             return left(new AppError.UnexpectedError('')) as UpdateProfileResponse;

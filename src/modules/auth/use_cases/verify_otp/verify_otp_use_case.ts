@@ -47,14 +47,16 @@ export class VerifyOtpUseCase implements UseCase<VerifyOtpDto, VerifyOtpResponse
         }
 
 
-
         try {
             const {identifier, type, date} = await generateProcessInfo.call(this);
             return right(Result.ok({
                 token,
                 type,
                 identifier,
-                date
+                operation: {
+                    date,
+                    type
+                }
             }));
         } catch (e) {
             return left(
@@ -65,7 +67,7 @@ export class VerifyOtpUseCase implements UseCase<VerifyOtpDto, VerifyOtpResponse
         async function generateProcessInfo() {
             const identifier = this.processService.generateIdentifier();
             const type = 'email';
-            const date = new Date();
+            const date =  new Date().toISOString();
             await this.authRepo.saveVerification({
                 id: decoded.userId, verification: {
                     type,

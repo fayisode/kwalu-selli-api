@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv'
+let dot = dotenv.config()
+
 
 const dbConfig = {
     mongoUrl: process.env.MONGO_URL,

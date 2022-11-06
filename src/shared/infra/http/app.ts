@@ -8,11 +8,12 @@ import { v1Router } from './api/v1';
 import {MongoHelper} from "../db/mongo/helper";
 import {dbConfig} from "../../../config/config";
 
+
+
 const origin = {
   origin: "*"
 }
 const mongoHelper = new MongoHelper();
-
 mongoHelper.connect(dbConfig.mongoUrl)
     .then(async () => {
       const app = express();

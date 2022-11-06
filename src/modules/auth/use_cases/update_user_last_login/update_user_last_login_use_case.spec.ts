@@ -12,9 +12,9 @@ describe('Update User last login', function () {
         dateTime = new Date();
         result = null;
         mock = new Mock<IAuthRepo>().setup(async instance =>
-            instance.updateUserLastLogin('123', dateTime)).returnsAsync().setup(
+            instance.updateUser('123', {'lastLogin': dateTime})).returnsAsync().setup(
             async instance =>
-                instance.updateUserLastLogin('1234554', dateTime)).throwsAsync(new Error('error'));
+                instance.updateUser('1234554', dateTime)).throwsAsync(new Error('error'));
         useCase = new UpdateUserLastLoginUseCase(mock.object());
     })
 

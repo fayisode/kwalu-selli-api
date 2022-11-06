@@ -2,6 +2,7 @@ import {IAuthRepo} from "../repos/i_auth_repo";
 import {UserProfile} from "../domain/entity/user_profile";
 import {ProductUser} from "../domain/entity/product_user";
 import { OperationValues } from "../services/process_service";
+import {ChangePasswordUserDetailsDto} from "./change_password/change_password_user_details_dto";
 
 export class TextAuthRepo implements IAuthRepo {
     async exists(email: string): Promise<boolean> {
@@ -36,9 +37,15 @@ export class TextAuthRepo implements IAuthRepo {
         return Promise.resolve(undefined);
     }
 
-    updateUserLastLogin(userId: string, date: Date): Promise<void> {
+    updateUser(userId: string, date: Date): Promise<void> {
         return Promise.resolve(undefined);
     }
+
+    getResetPasswordDetails(userId: string): Promise<ChangePasswordUserDetailsDto> {
+        return Promise.resolve(undefined);
+    }
+
+
 }
 
 export class TextRepo2 implements IAuthRepo {
@@ -77,7 +84,11 @@ export class TextRepo2 implements IAuthRepo {
         return Promise.resolve(undefined);
     }
 
-    updateUserLastLogin(userId: string, date: Date): Promise<void> {
+    updateUser(userId: string, date: Date): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    getResetPasswordDetails(userId: string): Promise<ChangePasswordUserDetailsDto> {
         return Promise.resolve(undefined);
     }
 }
@@ -86,7 +97,7 @@ export class TextRepo3 implements IAuthRepo {
     signInUser(user: ProductUser): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    updateUserLastLogin(userId: string, date: Date): Promise<void> {
+    updateUser(userId: string, date: Date): Promise<void> {
         throw new Error("Method not implemented.");
     }
     saveVerification(values: any): Promise<void> {
@@ -112,6 +123,10 @@ export class TextRepo3 implements IAuthRepo {
     }
 
     saveUser(user: ProductUser): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    getResetPasswordDetails(userId: string): Promise<ChangePasswordUserDetailsDto> {
         return Promise.resolve(undefined);
     }
 

@@ -7,6 +7,7 @@ import {UserProfileMap} from "../../mapper/user_profile_map";
 import {Collection, Document} from "mongodb";
 import {DomainEvents} from "../../../../shared/domain/events/DomainEvents";
 import {OperationValues} from "../../services/process_service";
+import {ChangePasswordUserDetailsDto} from "../../use_cases/change_password/change_password_user_details_dto";
 
 export class MongoAuthRepo implements IAuthRepo {
     private mongoHelper: IMongoHelper;
@@ -57,15 +58,15 @@ export class MongoAuthRepo implements IAuthRepo {
             {id: values.id},
             {
                 $set: {...values},
-                $currentDate: { lastModified: true }
+                $currentDate: {lastModified: true}
             },
-            { upsert: true }
+            {upsert: true}
         )
     }
 
     async getVerificationDetails(id: string): Promise<OperationValues> {
         const collection = this.getVerificationCollection()
-        const result =  await collection.findOne({id:id});
+        const result = await collection.findOne({id: id});
         return {
             process_name: result.processInfo.operation.process_name,
             otp: result.pin,
@@ -97,20 +98,31 @@ export class MongoAuthRepo implements IAuthRepo {
         return !!user === true;
     }
 
-    async  signInUser(user: ProductUser): Promise<void> {
+    async signInUser(user: ProductUser): Promise<void> {
         DomainEvents.dispatchEventsForAggregate(user.id);
     }
 
-    async updateUserLastLogin(userId: string, date: Date): Promise<void> {
+    async updateUser(userId: string, data: any): Promise<void> {
         const collection: Collection = this.getUsersCollection()
         await collection.updateOne(
             {userId: userId},
             {
-                $set: {'lastLogin': date},
-                $currentDate: { lastModified: true }
+                $set: {...data},
+                $currentDate: {lastModified: true}
             }
         )
         return Promise.resolve();
+    }
+
+    async getResetPasswordDetails(userId: string): Promise<ChangePasswordUserDetailsDto> {
+        const collection = this.getVerificationCollection()
+        const result = await collection.findOne({id: userId});
+        return {
+            identifier: result.verification.identifier,
+            type: result.verification.type,
+            date: result.verification.date,
+
+        };
     }
 
 }
