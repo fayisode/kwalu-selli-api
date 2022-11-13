@@ -24,7 +24,7 @@ export class ProductImage extends ValueObject<ProductImageProps>{
             return Result.fail<ProductImage>(againstNullOrUndefined.getErrorValue());
         }
         if(!this.checkURL(props.value)){
-            return Result.fail<ProductImage>('Invalid URL');
+            return Result.fail<ProductImage>('Error Processing Image');
         }
 
         return Result.ok(new ProductImage(props));

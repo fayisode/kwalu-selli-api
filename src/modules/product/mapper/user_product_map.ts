@@ -9,6 +9,7 @@ import {UniqueEntityID} from "../../../shared/domain/UniqueEntityID";
 
 export class UserProductMap implements Mapper<UserProduct> {
     public static async toPersistence(product: UserProduct): Promise<any> {
+
         return {
             productId: product.id.toValue(),
             category: product.category.getValue().value,

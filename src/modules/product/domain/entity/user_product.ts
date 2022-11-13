@@ -9,6 +9,8 @@ import {ProductName} from "../value_object/product_name";
 import {ProductCreated} from "../event/product_created";
 import {ProductEdited} from "../event/product_edited";
 import {ProductDeleted} from "../event/product_deleted";
+import {ProductImageAdded} from "../event/product_image_added";
+import {ProductImageUpdated} from "../event/product_image_updated";
 
 
 export class UserProduct extends AggregateRoot<UserProductProps> {
@@ -36,16 +38,26 @@ export class UserProduct extends AggregateRoot<UserProductProps> {
         return this.props.name;
     }
 
-    public productCreated():void{
-        this.addDomainEvent(new ProductCreated(this))
+    public productCreated(userEmail: string): void {
+        this.addDomainEvent(new ProductCreated(this,userEmail))
     }
 
-    public productEdited():void{
+    public imageAdded(imageInfo: any,
+                      productID: UniqueEntityID,
+                      ): void {
+        this.addDomainEvent(new ProductImageAdded(imageInfo, productID))
+    }
+
+    public productEdited(): void {
         this.addDomainEvent(new ProductEdited(this))
     }
 
-    public productDeleted():void{
-        this.addDomainEvent(new ProductDeleted(this))
+    public productDeleted(): void {
+        this.addDomainEvent(new ProductDeleted(this.id))
+    }
+
+    public imageUpdated(imageInfo: any){
+        this.addDomainEvent(new ProductImageUpdated(imageInfo, this.id))
     }
 
     static create(param: UserProductProps, id?: UniqueEntityID): Result<UserProduct> {
@@ -56,12 +68,12 @@ export class UserProduct extends AggregateRoot<UserProductProps> {
             param.name
         ])
 
-        if(result.isFailure){
+        if (result.isFailure) {
             return Result.fail<UserProduct>(result.getErrorValue())
         }
 
         const image = Result.combine(param.image)
-        if(image.isFailure){
+        if (image.isFailure) {
             return Result.fail<UserProduct>(image.getErrorValue())
         }
         return Result.ok(new UserProduct(param, id));

@@ -5,5 +5,6 @@ const mongoHelper = new MongoHelper();
 const authRepo = new MongoAuthRepo(mongoHelper);
 
 export {
-    authRepo
+    authRepo,
+    mongoHelper
 };

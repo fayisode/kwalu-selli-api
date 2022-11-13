@@ -1,23 +1,23 @@
-import {ProductEdited} from "../domain/event/product_edited";
 import {IHandle} from "../../../shared/domain/events/IHandle";
 import {IProductReadRepo} from "../repos/i_product_read_repo";
 import {DomainEvents} from "../../../shared/domain/events/DomainEvents";
-import {UserProductMap} from "../mapper/user_product_map";
+import {ProductImageUpdated} from "../domain/event/product_image_updated";
 
-export class AfterProductEdited implements IHandle<ProductEdited>{
+
+export class AfterImageUpdated implements IHandle<ProductImageUpdated>{
     private productRepo: IProductReadRepo
     constructor(productRepo: IProductReadRepo) {
         this.productRepo = productRepo;
         this.setupSubscriptions()
     }
-
     setupSubscriptions(): void {
-        DomainEvents.register(this.onProductEdited.bind(this), ProductEdited.name)
+        DomainEvents.register(this.onImageUpdated.bind(this), ProductImageUpdated.name)
     }
-
-    private async onProductEdited(event: ProductEdited): Promise<void> {
+    private async onImageUpdated(event: ProductImageUpdated): Promise<void> {
         console.log('Event Subscription ', event.eventName);
-        const product = await UserProductMap.toPersistence(event.product)
-        await this.productRepo.update(product)
+        await this.productRepo.updateImageInfo({
+            product_id: event.productID.toValue(),
+            image_info: event.imageInfo
+        })
     }
 }

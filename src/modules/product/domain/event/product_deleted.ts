@@ -5,14 +5,14 @@ import {UserProduct} from "../entity/user_product";
 export class ProductDeleted implements IDomainEvent{
     public static readonly eventName: string = "product.deleted";
     public readonly eventName: string = "product.deleted";
-    public readonly product: UserProduct;
-    constructor(product: UserProduct) {
-        this.product = product;
+    public readonly productId: UniqueEntityID;
+    constructor(productId: UniqueEntityID) {
+        this.productId = productId;
     }
 
     dateTimeOccurred: Date;
 
     getAggregateId(): UniqueEntityID {
-        return this.product.id;
+        return this.productId;
     }
 }

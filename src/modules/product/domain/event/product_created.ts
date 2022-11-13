@@ -6,8 +6,11 @@ export class ProductCreated implements IDomainEvent{
     public static readonly eventName: string = "product.created";
     public readonly eventName: string = "product.created";
     public readonly product: UserProduct;
-    constructor(product: UserProduct) {
+    public readonly email: string
+
+    constructor(product: UserProduct, email: string) {
         this.product = product;
+        this.email = email;
     }
 
     dateTimeOccurred: Date;

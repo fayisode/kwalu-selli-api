@@ -7,6 +7,7 @@ export class AfterProductDeleted implements IHandle<ProductDeleted>{
     private productRepo: IProductReadRepo
     constructor(productRepo: IProductReadRepo) {
         this.productRepo = productRepo;
+        this.setupSubscriptions()
     }
 
     setupSubscriptions(): void {
@@ -15,6 +16,6 @@ export class AfterProductDeleted implements IHandle<ProductDeleted>{
 
     private async onProductEdited(event: ProductDeleted): Promise<void> {
         console.log('Event Subscription ', event.eventName);
-        await this.productRepo.update(event.product)
+        await this.productRepo.delete(event.productId)
     }
 }

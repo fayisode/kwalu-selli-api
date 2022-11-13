@@ -1,7 +1,7 @@
 import {ProductUser} from "../../domain/entity/product_user";
 import {UserProfile} from "../../domain/entity/user_profile";
 import {IAuthRepo} from "../i_auth_repo";
-import {IMongoHelper, MongoHelper} from "../../../../shared/infra/db/mongo/helper";
+import {IMongoHelper} from "../../../../shared/infra/db/mongo/helper";
 import {UserMap} from "../../mapper/user_map";
 import {UserProfileMap} from "../../mapper/user_profile_map";
 import {Collection, Document} from "mongodb";
