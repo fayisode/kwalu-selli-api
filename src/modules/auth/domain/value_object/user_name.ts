@@ -17,8 +17,8 @@ export class UserName extends  ValueObject<UserNameProps>{
         return this.props.value;
     }
 
-    private static format(email: string): string {
-        let trim = email.trim();
+    private static format(name: string): string {
+        let trim = name.trim();
         return trim.charAt(0).toUpperCase() + trim.slice(1);
     }
 

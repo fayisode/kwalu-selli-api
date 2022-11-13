@@ -17,6 +17,7 @@ export class UserNationalId extends  ValueObject<UserNationalIdProps>{
         return this.props.value;
     }
 
+
     public static create(props: UserNationalIdProps): Result<UserNationalId> {
         let againstNullOrUndefined = Guard.againstNullOrUndefined(props.value, 'id');
         if(againstNullOrUndefined.isFailure){
@@ -32,6 +33,8 @@ export class UserNationalId extends  ValueObject<UserNationalIdProps>{
         if(result.isFailure){
             return Result.fail<UserNationalId>(result.getErrorValue())
         }
+
+
 
 
         return Result.ok(new UserNationalId(props));
