@@ -1,6 +1,6 @@
 import { IDomainEvent } from "../../../../shared/domain/events/IDomainEvent";
 import {UniqueEntityID} from "../../../../shared/domain/UniqueEntityID";
-import {UserProduct} from "../entity/user_product.spec";
+import {UserProduct} from "../entity/user_product";
 
 export class ProductCreated implements IDomainEvent{
     public static readonly eventName: string = "product.created";
