@@ -13,11 +13,13 @@ export class JWTAuthService implements  AuthService {
     }
 
     decodeToken(token: string): string {
-        return atob(token);
+        // return atob(token);
+        return Buffer.from(token, 'base64').toString()
     }
 
     encodeToken(token: string): string {
-        return btoa(token);
+        // return btoa(token);
+        return Buffer.from(token).toString('base64')
     }
 
     signJWT(props: JWTClaims): JWTToken {
