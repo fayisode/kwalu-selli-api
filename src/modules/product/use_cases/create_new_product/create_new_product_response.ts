@@ -5,4 +5,4 @@ import {CreateNewProductError} from "./create_new_product_error";
 export type CreateNewProductResponse = Either<AppError.UnexpectedError
     | CreateNewProductError.ValuePropsError
     | CreateNewProductError.UnAuthorized
-    , Result<void> | Result<any>>
+    , Result<void> | Result<any>>;

@@ -3,7 +3,7 @@ import {IMongoHelper} from "../../../../shared/infra/db/mongo/helper";
 import {IProductReadRepo} from "../i_product_read_repo";
 import {Collection} from "mongodb";
 
-export class MongoProductReadRepo implements IProductReadRepo{
+export class MongoProductReadRepo implements IProductReadRepo {
     private mongoHelper: IMongoHelper;
 
     constructor(mongo: IMongoHelper) {
@@ -13,6 +13,7 @@ export class MongoProductReadRepo implements IProductReadRepo{
     private getProductCollection() {
         return this.mongoHelper.getCollection('product read');
     }
+
     private getImageInfoCollection() {
         return this.mongoHelper.getCollection('image info');
     }
@@ -48,5 +49,27 @@ export class MongoProductReadRepo implements IProductReadRepo{
             {
                 $set: {...info}
             })
+    }
+
+    async read(userEmail?: string, productId?: string): Promise<any> {
+        const collection: Collection = this.getProductCollection();
+        let query = null
+        if (productId && userEmail) {
+            query = {
+                'productId': productId,
+                'user_details.email': userEmail
+            }
+        }else if(productId){
+            query = {
+                'productId': productId
+            }
+        }else if(userEmail){
+            query = {
+                'user_details.email': userEmail
+            }
+        }
+        return collection.find(
+            query
+        ).toArray()
     }
 }
