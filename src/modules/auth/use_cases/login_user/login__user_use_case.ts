@@ -53,6 +53,7 @@ export class LoginUserUseCase implements UseCase<LoginUserDto, LoginUserResponse
                 } else {
                     const email = user.email.getValue().value;
                     const id = user.id.toValue() as string;
+
                     const token = await this.authService.signJWT({
                         email: email,
                         userId: id,
@@ -62,6 +63,8 @@ export class LoginUserUseCase implements UseCase<LoginUserDto, LoginUserResponse
                     return right(Result.ok({token: token, message: 'User successfully logged in'}))
                 }
             } catch (e) {
+                console.log('Going to generate token');
+                console.log(e);
                 return left(
                     new LoginUserError.EmailDoesNotExist(email),
                 );
